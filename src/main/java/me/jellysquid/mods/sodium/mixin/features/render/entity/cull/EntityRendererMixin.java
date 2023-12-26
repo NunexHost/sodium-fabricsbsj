@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EntityRendererMixin<T extends Entity> {
     @Inject(method = "shouldRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Frustum;isVisible(Lnet/minecraft/util/math/Box;)Z", shift = At.Shift.AFTER), cancellable = true)
     private void preShouldRender(T entity, Frustum frustum, double x, double y, double z, CallbackInfoReturnable<Boolean> cir) {
+        // Cache renderer instance
         var renderer = SodiumWorldRenderer.instanceNullable();
-
         if (renderer == null) {
-            return;
+            return; // Early exit if renderer is not available
         }
 
-        // If the entity isn't culled already by other means, try to perform a second pass
+        // Perform second pass culling
         if (cir.getReturnValue() && !renderer.isEntityVisible(entity)) {
             cir.setReturnValue(false);
         }
