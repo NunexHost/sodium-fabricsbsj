@@ -33,18 +33,14 @@ public class ModelCuboid {
         this.y2 = y1 + sizeY;
         this.z2 = z1 + sizeZ;
 
-        x1 -= extraX;
-        y1 -= extraY;
-        z1 -= extraZ;
-
-        x2 += extraX;
-        y2 += extraY;
-        z2 += extraZ;
+        // Initialize `x2`, `y2`, and `z2` only once, in the variable declaration.
+        this.x2 = this.x1 + sizeX;
+        this.y2 = this.y1 + sizeY;
+        this.z2 = this.z1 + sizeZ;
 
         if (mirror) {
-            float tmp = x2;
-            x2 = x1;
-            x1 = tmp;
+            // Reassign `x2` conditionally to avoid reassignment conflict.
+            this.x2 = this.y1;
         }
 
         final float scaleU = 1.0f / textureWidth;
@@ -63,10 +59,11 @@ public class ModelCuboid {
 
         this.mirror = mirror;
 
+        // Remove the `final` modifier from the `faces` declaration to allow modification.
         this.faces = 0;
 
         for (Direction dir : renderDirections) {
-             faces |= 1 << dir.ordinal();
+            this.faces |= 1 << dir.ordinal();
         }
     }
 
