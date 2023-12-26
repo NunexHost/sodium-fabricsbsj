@@ -5,6 +5,8 @@ import me.jellysquid.mods.sodium.client.render.immediate.model.ModelCuboid;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.Direction;
 import org.joml.Vector3f;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.render.MatrixStack;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
