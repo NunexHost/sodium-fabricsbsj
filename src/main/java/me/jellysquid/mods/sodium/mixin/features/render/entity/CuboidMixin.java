@@ -16,12 +16,14 @@ import java.util.Set;
 @Mixin(ModelPart.Cuboid.class)
 public class CuboidMixin implements ModelCuboidAccessor {
     @Unique
-    private static final ModelCuboid EMPTY_CUBOID = new ModelCuboid();
+    private static final ModelCuboid EMPTY_CUBOID = new ModelCuboid(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, Set.of()); // Use default values or appropriate values
 
-    // Inject at the end of the function, so we don't capture modified locals
+    @Unique
+    private ModelCuboid sodium$cuboid; // Declare as a class-level field
+
+    // Inject at the end of the function
     @Inject(method = "<init>", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/client/model/ModelPart$Cuboid;sides:[Lnet/minecraft/client/model/ModelPart$Quad;", ordinal = 0))
     private void onInit(int u, int v, float x, float y, float z, float sizeX, float sizeY, float sizeZ, float extraX, float extraY, float extraZ, boolean mirror, float textureWidth, float textureHeight, Set<Direction> renderDirections, CallbackInfo ci) {
-        // Lazy initialize `sodium$cuboid`
         if (this.sodium$cuboid == null) {
             this.sodium$cuboid = new ModelCuboid(u, v, x, y, z, sizeX, sizeY, sizeZ, extraX, extraY, extraZ, mirror, textureWidth, textureHeight, renderDirections);
         }
@@ -29,7 +31,6 @@ public class CuboidMixin implements ModelCuboidAccessor {
 
     @Override
     public ModelCuboid sodium$copy() {
-        // Return `EMPTY_CUBOID` if `sodium$cuboid` is null
         return this.sodium$cuboid == null ? EMPTY_CUBOID : this.sodium$cuboid;
     }
 }
