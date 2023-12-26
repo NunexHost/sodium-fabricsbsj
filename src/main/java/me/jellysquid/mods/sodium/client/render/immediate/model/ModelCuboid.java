@@ -33,13 +33,13 @@ public class ModelCuboid {
         this.y2 = y1 + sizeY;
         this.z2 = z1 + sizeZ;
 
-        this.x1 -= extraX;
-        this.y1 -= extraY;
-        this.z1 -= extraZ;
+        x1 -= extraX;
+        y1 -= extraY;
+        z1 -= extraZ;
 
-        this.x2 += extraX;
-        this.y2 += extraY;
-        this.z2 += extraZ;
+        x2 += extraX;
+        y2 += extraY;
+        z2 += extraZ;
 
         if (mirror) {
             float tmp = x2;
@@ -66,7 +66,7 @@ public class ModelCuboid {
         this.faces = 0;
 
         for (Direction dir : renderDirections) {
-            this.faces |= 1 << dir.ordinal();
+             faces |= 1 << dir.ordinal();
         }
     }
 
